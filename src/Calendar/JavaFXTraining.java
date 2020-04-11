@@ -35,7 +35,7 @@ public class JavaFXTraining extends Application {
             BorderPane root = new BorderPane();
             Scene scene = new Scene(root, 400, 400);
            
-            CalendarNode cc = new CalendarNode();
+            //CalendarNode cc = new CalendarNode();
             //root.setCenter(cc);
 
             primaryStage.setScene(scene);
