@@ -66,7 +66,7 @@ public class DAO {
     public ArrayList<Task> getTask(LocalDate date) {
         ArrayList<Task> tasks = new ArrayList();
         Task t = null;
-        
+        System.out.println("im trying to find tasks on " + date);
         try {
             String statement = "Select * From Task Where Date = ?";
             PreparedStatement stmnt = con.prepareStatement(statement);
@@ -81,6 +81,7 @@ public class DAO {
                 t.setStartTime(Time.valueOf(rs.getString("StartTime")));
                 t.setEndTime(Time.valueOf(rs.getString("EndTime")));
                 tasks.add(t);
+                System.out.println(t.getName());
             }
         } 
         catch (Exception e) {
@@ -88,5 +89,28 @@ public class DAO {
         }
         return tasks;
 
+    }
+
+    public boolean deleteTask(Task t) {
+        System.out.println("delete task: in dao");
+
+        try{
+            System.out.println("preparing statement " + t);
+
+            String statement = "Delete From Task Where Name=? And description=? And Date=? And StartTime=? And EndTime=?";
+            PreparedStatement stmnt = con.prepareStatement(statement);
+            System.out.println("setting values");
+            stmnt.setString(1, t.getName());
+            stmnt.setString(2, t.getDescription());
+            stmnt.setString(3, convertLocalDate(t.getDate()).toString());
+            stmnt.setString(4, t.getStartTime().toString());
+            stmnt.setString(5, t.getEndTime().toString());
+            stmnt.execute();
+            return true;            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }

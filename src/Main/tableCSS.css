@@ -1,0 +1,6 @@
+.table-row-cell:empty {
+    -fx-background-color: white;
+}
+.table-row-cell:empty{
+	-fx-border-width: 0px
+}

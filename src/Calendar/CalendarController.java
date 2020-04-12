@@ -7,7 +7,9 @@ package Calendar;
 
 import Database.Model;
 import Form.TaskController;
+import Object.Task;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,8 +25,9 @@ public class CalendarController {
     private Model model;
     private Stage stage;
     
-    public CalendarController() {
+    public CalendarController(Model model) {
         System.out.println("im here");
+        setModel(model);
         this.view = new CalendarView(this);
 
     }
@@ -38,7 +41,9 @@ public class CalendarController {
     }
 
     public void setModel(Model model) {
+        System.out.println("got the model, setting: " + model);
         this.model = model;
+        System.out.println(this.model);
     }
 
     public void addTask(LocalDate date) {
@@ -61,8 +66,24 @@ public class CalendarController {
         }
     }
     
+    public ArrayList<Task> getTaskList(LocalDate d){
+        System.out.println("im in the controller" + model);
+        ArrayList<Task> t = model.getTaskList(d);
+        return t;
+    }
+    
     public void close(){
         stage.close();
+    }
+
+    public boolean deleteTask(Task t) {
+        System.out.println("delete task: in calendar controller");
+        if(model.deleteTask(t)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }

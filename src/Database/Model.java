@@ -65,12 +65,12 @@ public class Model {
     //0 if  time is the same as ref (bad)
     //<0 if if  time is before time of ref
     public boolean checkDateTime(Task t) {
-        ArrayList<Task> tasks = dao.getTask(t.getDate());
+        //ArrayList<Task> tasks = dao.getTask(t.getDate());
 
-        if (tasks.isEmpty() || tasks == null) {
+        if (task.isEmpty() || task == null) {
             return true;
         } else {
-            for (Task ref : tasks) {
+            for (Task ref : task) {
                 if (t.getStartTime().before(ref.getEndTime()) && ref.getStartTime().before(t.getEndTime())) {
                     return false;
                 }
@@ -84,4 +84,21 @@ public class Model {
         return time;
     }
 
+    public ArrayList<Task> getTaskList(LocalDate d){
+        this.task = dao.getTask(d);
+        System.out.println("im in the model");
+        return task;
+    }
+
+    public boolean deleteTask(Task t) {
+        System.out.println("delete task: in model");
+
+        if(dao.deleteTask(t)){
+            task.remove(t);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

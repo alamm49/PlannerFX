@@ -23,14 +23,17 @@ public class FXMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         Model model = new Model(new DAO());
-        BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 400, 400);
-
-        CalendarController controller = new CalendarController();
-        controller.setModel(model);
-        CalendarView cv = controller.getView(); //change to getting view from controller.
+        //BorderPane root = new BorderPane();
         
-        root.setCenter(cv);
+        
+        CalendarController controller = new CalendarController(model);
+        //controller.setModel(model);
+        CalendarView root = controller.getView();
+        
+        Scene scene = new Scene(root, 500, 250);
+     
+        
+        //root.setCenter(cv);
 
         primaryStage.setScene(scene);
         primaryStage.show();
