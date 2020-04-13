@@ -8,6 +8,7 @@ package Calendar;
 import Database.Model;
 import Form.TaskController;
 import Object.Task;
+import Object.ToDoList;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
@@ -79,6 +80,24 @@ public class CalendarController {
     public boolean deleteTask(Task t) {
         System.out.println("delete task: in calendar controller");
         if(model.deleteTask(t)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    ArrayList<ToDoList> getToDoList(LocalDate date) {
+        ArrayList<ToDoList> t = model.getToDoList(date);
+        return t;
+    }
+
+    public void addToDoList(ToDoList l) {
+        model.addToDoList(l);
+    }
+
+    public boolean deleteToDoList(ToDoList l) {
+        if(model.deleteToDoList(l)){
             return true;
         }
         else{

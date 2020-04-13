@@ -6,6 +6,7 @@
 package Database;
 
 import Object.Task;
+import Object.ToDoList;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,11 +18,13 @@ import java.util.ArrayList;
 public class Model {
 
     private ArrayList<Task> task;
+    private ArrayList<ToDoList> toDoList;
     private DAO dao;
 
     public Model(DAO dao) {
         this.dao = dao;
-        task = new ArrayList(); //REPLACE THIS WITH SOMETHING THAT GETS TASKS FROM DATABASE
+        task = new ArrayList<>(); //REPLACE THIS WITH SOMETHING THAT GETS TASKS FROM DATABASE
+        toDoList = new ArrayList<>();
     }
 
     //>0 if start time is after end time (bad)
@@ -78,7 +81,8 @@ public class Model {
         }
         return true;
     }
-
+    
+    //combines two strings of number into a time object
     public Time combine(String hour, String minute) {
         Time time = Time.valueOf(hour + ":" + minute + ":00");
         return time;
@@ -95,6 +99,33 @@ public class Model {
 
         if(dao.deleteTask(t)){
             task.remove(t);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public ArrayList<ToDoList> getToDoList(LocalDate date) {
+        this.toDoList = dao.getToDoList(date);
+        return toDoList;
+    }
+
+    public void addToDoList(ToDoList l) {
+        if(l.getDescription().isEmpty()|| l.getDate() == null){
+            System.out.println("description or date is missing");
+            return;
+        }
+        else{
+            
+            dao.addToDoList(l);
+        }
+        
+    }
+
+    public boolean deleteToDoList(ToDoList l) {
+        if(dao.deleteToDoList(l)){
+            toDoList.remove(l);
             return true;
         }
         else{
