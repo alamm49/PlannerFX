@@ -7,6 +7,7 @@ package Calendar;
 
 import Database.Model;
 import Form.TaskController;
+import Object.Deadline;
 import Object.Task;
 import Object.ToDoList;
 import java.time.LocalDate;
@@ -98,6 +99,28 @@ public class CalendarController {
 
     public boolean deleteToDoList(ToDoList l) {
         if(model.deleteToDoList(l)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public ArrayList<Deadline> getDeadlineList(LocalDate d){
+        return model.getDeadlineList(d);
+    }
+    
+    public boolean addDeadline(Deadline d){
+        if(model.addDeadline(d)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public boolean deleteDeadline(Deadline d){
+        if(model.deleteDeadline(d)){
             return true;
         }
         else{

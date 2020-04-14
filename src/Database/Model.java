@@ -5,6 +5,7 @@
  */
 package Database;
 
+import Object.Deadline;
 import Object.Task;
 import Object.ToDoList;
 import java.sql.Time;
@@ -19,12 +20,14 @@ public class Model {
 
     private ArrayList<Task> task;
     private ArrayList<ToDoList> toDoList;
+    private ArrayList<Deadline> deadlineList;
     private DAO dao;
 
     public Model(DAO dao) {
         this.dao = dao;
         task = new ArrayList<>(); //REPLACE THIS WITH SOMETHING THAT GETS TASKS FROM DATABASE
         toDoList = new ArrayList<>();
+        deadlineList = new ArrayList<>();
     }
 
     //>0 if start time is after end time (bad)
@@ -119,6 +122,7 @@ public class Model {
         else{
             
             dao.addToDoList(l);
+            toDoList.add(l);
         }
         
     }
@@ -126,6 +130,31 @@ public class Model {
     public boolean deleteToDoList(ToDoList l) {
         if(dao.deleteToDoList(l)){
             toDoList.remove(l);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public ArrayList<Deadline> getDeadlineList(LocalDate d){
+        return dao.getDeadlineList(d);
+    }
+    
+    public boolean addDeadline(Deadline d){
+        if(dao.addDeadline(d)){
+            deadlineList.add(d);
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+    
+    public boolean deleteDeadline(Deadline d){
+        if(dao.deleteDeadline(d)){
+            deadlineList.remove(d);
             return true;
         }
         else{

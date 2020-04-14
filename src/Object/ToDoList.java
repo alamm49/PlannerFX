@@ -18,9 +18,11 @@ public class ToDoList {
     private CheckBox complete;
     private boolean boolComplete;
     
+    
     public ToDoList(){
         
     }
+    
     public ToDoList(String description, LocalDate date){
         this.description = description;
         this.date = date;

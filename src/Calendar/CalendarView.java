@@ -53,6 +53,7 @@ public class CalendarView extends GridPane {
     TableView<ToDoList> toDoList;
     BorderPane toDoListPane;
     TextField listDesc;
+    private DeadlineNode dlNode;
     
     public CalendarView(CalendarController controller) {
         this.controller = controller;
@@ -60,6 +61,7 @@ public class CalendarView extends GridPane {
         initCalendar();
         initTaskTable();
         initToDoListTable();
+        initDeadlineList();
         //this.setCenter(popupContent);
         //this.setBottom(button);
         this.setHgap(10);
@@ -99,6 +101,7 @@ public class CalendarView extends GridPane {
             System.out.println(newDate.format(DateTimeFormatter.ofPattern(pattern)));
             updateTaskTable(newDate);
             updateToDoList(newDate);
+            dlNode.update(newDate);
         });
 
         DatePickerSkin datePickerSkin = new DatePickerSkin(dp);
@@ -109,6 +112,11 @@ public class CalendarView extends GridPane {
         
         
         this.add(pane, 1, 0);
+    }
+    
+    private void initDeadlineList(){
+        dlNode = new DeadlineNode(controller);
+        this.add(dlNode,4,0);
     }
     
     private void initToDoListTable(){
@@ -200,6 +208,7 @@ public class CalendarView extends GridPane {
         ToDoList l = new ToDoList(desc,d);
         controller.addToDoList(l);
         toDoList.getItems().add(l);
+        listDesc.clear();
     }
     
     private void initTaskTable() {

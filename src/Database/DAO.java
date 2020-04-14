@@ -6,6 +6,7 @@
 package Database;
 
 import Database.DBConnector;
+import Object.Deadline;
 import Object.Task;
 import Object.ToDoList;
 import java.sql.Connection;
@@ -174,5 +175,68 @@ public class DAO {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+    
+    public ArrayList<Deadline> getDeadlineList(LocalDate d){
+        ArrayList<Deadline> list = new ArrayList<>();
+        Deadline deadline = null;
+        try{
+            String statement = "Select * From Deadline Where date=?";
+            PreparedStatement stmnt = con.prepareStatement(statement);
+            
+            stmnt.setString(1, convertLocalDate(d).toString());
+            
+            ResultSet rs = stmnt.executeQuery();
+            
+            while(rs.next()){
+                deadline = new Deadline();
+                deadline.setDescription(rs.getString("Description"));
+                deadline.setDate(LocalDate.parse(rs.getString("Date")));
+                deadline.setTime(Time.valueOf(rs.getString("Time")));
+                
+                list.add(deadline);
+            }
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+    
+    public boolean addDeadline(Deadline d){
+        try{
+            String statement = "INSERT INTO Deadline(Description, Date, Time)"
+                    + "VALUES(?,?,?)";
+            
+            PreparedStatement stmnt = con.prepareStatement(statement);
+            stmnt.setString(1, d.getDescription());
+            stmnt.setString(2, convertLocalDate(d.getDate()).toString());
+            stmnt.setString(3, d.getTime().toString());
+            stmnt.execute();
+            return true;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean deleteDeadline(Deadline d){
+        try{
+            String statement = "Delete From Deadline Where Description =? And Date = ? And Time = ?";
+            PreparedStatement stmnt = con.prepareStatement(statement);
+            stmnt.setString(1, d.getDescription());
+            stmnt.setString(2, convertLocalDate(d.getDate()).toString());
+            stmnt.setString(3, d.getTime().toString());
+            stmnt.execute();
+            
+        }
+        
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 }
