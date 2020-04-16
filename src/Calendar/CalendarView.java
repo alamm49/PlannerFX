@@ -24,14 +24,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 
 /**
  *
  * @author Alam
  */
-public class CalendarView extends GridPane {
-
+public class CalendarView extends BorderPane{
+    VBox box1;
+    
+    
     String pattern = "dd/MM/yyyy";
     String date;
     Button button;
@@ -41,25 +45,34 @@ public class CalendarView extends GridPane {
     private DeadlineNode dlNode;
     private TaskNode taskNode;
     private ToDoListNode toDoListNode;
+    private BorderPane calendarPane;
     private LocalDate selectedDate;
     
     public CalendarView(CalendarController controller) {
+        
+        this.getStyleClass().add("pane");
         this.controller = controller;
-
+        box1 = new VBox();
         initCalendar();
         initTaskTable();
         initToDoList();
         initDeadlineList();
-        //this.setCenter(popupContent);
-        //this.setBottom(button);
-        this.setHgap(10);
-        this.setVgap(10);
+        this.setPadding(new Insets(5));
+        box1.getChildren().addAll(toDoListNode,taskNode, dlNode);
+        //this.setCenter(taskNode);
+        //this.setBottom(dlNode);
+        this.setLeft(calendarPane);
+        this.setRight(box1);
+        
+        
+        //this.setHgap(10);
+        //this.setVgap(10);
     }
 
     private void initCalendar() {
         dp = new DatePicker();
         button = new Button("Add Task");
-        BorderPane pane = new BorderPane();
+        calendarPane = new BorderPane();
         //disables past dates
         dp.setDayCellFactory(picker -> new DateCell() {
             @Override
@@ -94,29 +107,31 @@ public class CalendarView extends GridPane {
         });
 
         DatePickerSkin datePickerSkin = new DatePickerSkin(dp);
+        
         Node popupContent = datePickerSkin.getPopupContent();
         
-        pane.setCenter(popupContent);
-        pane.setBottom(button);
+        
+        calendarPane.setCenter(popupContent);
+        calendarPane.setBottom(button);
         
         
-        this.add(pane, 1, 0);
+        //this.add(pane, 0, 0);
     }
     
     private void initDeadlineList(){
         dlNode = new DeadlineNode(controller);
-        this.add(dlNode,4,0);
+        //this.add(dlNode,0,1);
     }
     
      private void initTaskTable(){
         taskNode = new TaskNode(controller);
-        this.add(taskNode, 0, 0);
+        //this.add(taskNode, 1, 0);
         
     }
     
      private void initToDoList(){
          toDoListNode = new ToDoListNode(controller);
-         this.add(toDoListNode, 2, 0);
+         //this.add(toDoListNode, 1, 1);
      }
     /*
     private void initToDoListTable(){

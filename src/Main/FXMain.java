@@ -30,8 +30,8 @@ public class FXMain extends Application {
         //controller.setModel(model);
         CalendarView root = controller.getView();
         
-        Scene scene = new Scene(root, 1170, 250);
-     
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("/Main/tableCSS.css");
         
         //root.setCenter(cv);
 

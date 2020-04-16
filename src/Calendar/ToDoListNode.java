@@ -35,6 +35,10 @@ public class ToDoListNode extends BorderPane {
         this.controller = c;
         initToDoListTable();
         initComponents();
+        this.setMinHeight(200);
+        this.setMinWidth(200);
+       
+        
     }
 
     private void initToDoListTable() {
@@ -63,7 +67,7 @@ public class ToDoListNode extends BorderPane {
         }
 
         toDoList.getColumns().addAll(descColumn);
-        toDoList.getStylesheets().add(getClass().getResource("/Main/tableCSS.css").toExternalForm());
+        
         toDoList.prefHeightProperty().bind(Bindings.size(toDoList.getItems()).multiply(toDoList.getFixedCellSize()).add(25));
 
         this.setCenter(toDoList);

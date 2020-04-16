@@ -4,3 +4,18 @@
 .table-row-cell:empty{
 	-fx-border-width: 0px
 }
+.date-picker-popup {
+    -fx-pref-width: 400;
+    -fx-pref-height: 400;
+    
+}
+.date-picker-popup .spinner-label {
+ 
+}
+.date-picker-popup{
+    -fx-background-color: #D7C49EFF;
+    -fx-effect: null;
+}
+.pane{
+    -fx-background-color: #D7C49EFF;
+}

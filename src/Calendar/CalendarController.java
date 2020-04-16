@@ -53,6 +53,7 @@ public class CalendarController {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Form/TaskFXML.fxml"));
             Parent root = loader.load();
+            
             TaskController TC = loader.getController();
             TC.setModel(model);
             TC.setDate(date);

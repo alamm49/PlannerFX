@@ -29,13 +29,15 @@ public class TaskNode extends BorderPane{
     public TaskNode(CalendarController c){
         this.controller = c;
         initTaskTable();
+        this.setMinHeight(200);
+        this.setMinWidth(200);
     }
     
     private void initTaskTable() {
         Button deleteButton = new Button("Delete Task");
         
         //name column
-        TableColumn<Task, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<Task, String> nameColumn = new TableColumn<>("Task");
         nameColumn.setMaxWidth(200);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setSortable(false);
@@ -66,7 +68,7 @@ public class TaskNode extends BorderPane{
         
         
         taskTable.getColumns().addAll(nameColumn, startTimeColumn, endTimeColumn);
-        taskTable.getStylesheets().add(getClass().getResource("/Main/tableCSS.css").toExternalForm());
+     
         taskTable.prefHeightProperty().bind(Bindings.size(taskTable.getItems()).multiply(taskTable.getFixedCellSize()).add(25));
         
         //delete button

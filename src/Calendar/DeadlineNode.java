@@ -42,6 +42,8 @@ public class DeadlineNode extends BorderPane{
         this.controller = controller;
         initTable();
         initComponents();
+        this.setMinHeight(200);
+        this.setMinWidth(200);
     }
     
     public void update(LocalDate d){
@@ -81,7 +83,7 @@ public class DeadlineNode extends BorderPane{
     private void initTable() {
         
         //description column
-        TableColumn<Deadline, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<Deadline, String> nameColumn = new TableColumn<>("Deadline");
         nameColumn.setMaxWidth(600);
         nameColumn.setMinWidth(275);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -105,7 +107,6 @@ public class DeadlineNode extends BorderPane{
         
         
         deadlineTable.getColumns().addAll(nameColumn, startTimeColumn);
-        deadlineTable.getStylesheets().add(getClass().getResource("/Main/tableCSS.css").toExternalForm());
         deadlineTable.prefHeightProperty().bind(Bindings.size(deadlineTable.getItems()).multiply(deadlineTable.getFixedCellSize()).add(25));
         
         
