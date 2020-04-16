@@ -180,6 +180,7 @@ public class DAO {
     public ArrayList<Deadline> getDeadlineList(LocalDate d){
         ArrayList<Deadline> list = new ArrayList<>();
         Deadline deadline = null;
+        System.out.println("trying to find deadlines");
         try{
             String statement = "Select * From Deadline Where date=?";
             PreparedStatement stmnt = con.prepareStatement(statement);

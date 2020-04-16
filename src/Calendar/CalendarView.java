@@ -14,28 +14,17 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+
 
 /**
  *
@@ -48,19 +37,18 @@ public class CalendarView extends GridPane {
     Button button;
     CalendarController controller;
     DatePicker dp;
-    TableView<Task> taskTable;
-    BorderPane taskTablePane;
-    TableView<ToDoList> toDoList;
-    BorderPane toDoListPane;
     TextField listDesc;
     private DeadlineNode dlNode;
+    private TaskNode taskNode;
+    private ToDoListNode toDoListNode;
+    private LocalDate selectedDate;
     
     public CalendarView(CalendarController controller) {
         this.controller = controller;
 
         initCalendar();
         initTaskTable();
-        initToDoListTable();
+        initToDoList();
         initDeadlineList();
         //this.setCenter(popupContent);
         //this.setBottom(button);
@@ -99,8 +87,9 @@ public class CalendarView extends GridPane {
 
         dp.valueProperty().addListener((observable, oldDate, newDate) -> {
             System.out.println(newDate.format(DateTimeFormatter.ofPattern(pattern)));
-            updateTaskTable(newDate);
-            updateToDoList(newDate);
+            taskNode.updateTaskTable(newDate);
+            
+            toDoListNode.updateToDoList(newDate);
             dlNode.update(newDate);
         });
 
@@ -119,6 +108,17 @@ public class CalendarView extends GridPane {
         this.add(dlNode,4,0);
     }
     
+     private void initTaskTable(){
+        taskNode = new TaskNode(controller);
+        this.add(taskNode, 0, 0);
+        
+    }
+    
+     private void initToDoList(){
+         toDoListNode = new ToDoListNode(controller);
+         this.add(toDoListNode, 2, 0);
+     }
+    /*
     private void initToDoListTable(){
         toDoListPane = new BorderPane();
       
@@ -138,7 +138,7 @@ public class CalendarView extends GridPane {
         checkBoxColumn.setCellValueFactory(new PropertyValueFactory<>("complete"));
         checkBoxColumn.setSortable(false);
         checkBoxColumn.setResizable(false);
-        */
+        
         toDoList = new TableView<>();
         try {
             toDoList.setItems(getToDoList(LocalDate.now()));
@@ -151,7 +151,7 @@ public class CalendarView extends GridPane {
         
         toDoList.getColumns().addAll(descColumn);
         toDoList.getStylesheets().add(getClass().getResource("/Main/tableCSS.css").toExternalForm());
-        toDoList.prefHeightProperty().bind(Bindings.size(taskTable.getItems()).multiply(taskTable.getFixedCellSize()).add(25));
+        toDoList.prefHeightProperty().bind(Bindings.size(toDoList.getItems()).multiply(toDoList.getFixedCellSize()).add(25));
         
         Button addButton = new Button("Add");
         Button deleteButton = new Button("Delete");
@@ -210,7 +210,9 @@ public class CalendarView extends GridPane {
         toDoList.getItems().add(l);
         listDesc.clear();
     }
-    
+    */
+   
+    /*
     private void initTaskTable() {
         Button deleteButton = new Button("Delete Task");
         taskTablePane = new BorderPane();
@@ -292,7 +294,8 @@ public class CalendarView extends GridPane {
         }
         return t;
     }
-
+    */
+    
     public String getDate() {
         return date;
     }
