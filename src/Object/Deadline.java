@@ -6,6 +6,7 @@
 package Object;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 /**
@@ -52,6 +53,22 @@ public class Deadline {
         this.time = time;
     }
     
-    
+    public long getEpoch(){
+        long epoch = 0;
+        java.util.Date d;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateTime = date.getYear() + "-" + date.getMonthValue() + "-" + date.getDayOfMonth() + " " + time.toString();
+        try {
+            d = df.parse(dateTime);
+            epoch = d.getTime();
+        }
+        
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        
+        return epoch;
+    }
         
 }

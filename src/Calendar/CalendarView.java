@@ -34,7 +34,7 @@ import javafx.scene.layout.VBox;
  */
 public class CalendarView extends BorderPane{
     VBox box1;
-    
+    VBox box2;
     
     String pattern = "dd/MM/yyyy";
     String date;
@@ -53,15 +53,17 @@ public class CalendarView extends BorderPane{
         this.getStyleClass().add("pane");
         this.controller = controller;
         box1 = new VBox();
+        box2 = new VBox();
         initCalendar();
         initTaskTable();
         initToDoList();
         initDeadlineList();
         this.setPadding(new Insets(5));
         box1.getChildren().addAll(toDoListNode,taskNode, dlNode);
+        box2.getChildren().add(calendarPane);
         //this.setCenter(taskNode);
         //this.setBottom(dlNode);
-        this.setLeft(calendarPane);
+        this.setLeft(box2);
         this.setRight(box1);
         
         
