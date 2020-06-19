@@ -8,7 +8,6 @@ package Notification;
 import Object.Deadline;
 import java.awt.TrayIcon;
 import java.util.TimerTask;
-import org.controlsfx.control.Notifications;
 
 /**
  *
@@ -27,7 +26,7 @@ public class NotifyDeadline extends TimerTask{
     public void run() {
        String message = "You have a deadline due in 15 minutes /n" + 
                             "Deadline: " + d.getDescription();
-        tray.getTrayIcon().displayMessage("Task Reminder", message, TrayIcon.MessageType.INFO);
+        tray.getTrayIcon().displayMessage("Deadline Reminder", message, TrayIcon.MessageType.INFO);
     }
     
 }

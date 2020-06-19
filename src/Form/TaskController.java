@@ -6,11 +6,10 @@
 package Form;
 
 import Calendar.CalendarController;
-import Database.Model;
+import Calendar.Model;
+import Object.Task;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -69,7 +68,8 @@ public class TaskController {
             System.out.println("Times are empty");
         } 
         else {
-            if (m.addTask(n, d, da, h1, m1, h2, m2)) {
+            Task t = new Task(n,d,da,m.combine(h1,m1),m.combine(h2,m2));
+            if (m.addTask(t)) {
                 System.out.println("task controller: task was added...");
                 CC.close();
             }

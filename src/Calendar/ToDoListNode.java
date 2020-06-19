@@ -12,6 +12,7 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -30,6 +31,7 @@ public class ToDoListNode extends BorderPane {
     private TextField listDesc;
     private HBox hBox;
     private LocalDate date;
+    private ComboBox importance;
 
     public ToDoListNode(CalendarController c) {
         this.controller = c;
@@ -79,6 +81,9 @@ public class ToDoListNode extends BorderPane {
         Button addButton = new Button("Add");
         Button deleteButton = new Button("Delete");
         listDesc = new TextField();
+        importance = new ComboBox();
+        importance.getItems().addAll("Important?", "Yes", "No");
+        importance.getSelectionModel().selectFirst();
 
         addButton.setOnAction(e -> addToDoListButtonClicked(listDesc.getText()));
         deleteButton.setOnAction(e -> deleteToDoListButtonClicked());
@@ -86,7 +91,7 @@ public class ToDoListNode extends BorderPane {
          hBox = new HBox();
         //hBox.setPadding(new Insets(10,10,10,10));
         hBox.setSpacing(10);
-        hBox.getChildren().addAll(listDesc, addButton, deleteButton);
+        hBox.getChildren().addAll(listDesc, importance ,addButton, deleteButton);
 
         this.setBottom(hBox);
     }
@@ -127,10 +132,10 @@ public class ToDoListNode extends BorderPane {
     public void addToDoListButtonClicked(String desc) {
 
         if (desc.isEmpty()) {
-            System.out.println("description is empty");
-        } else {
-            
-            ToDoList l = new ToDoList(desc, date);
+            System.out.println("description is EMPTY");
+        } else if(!(importance.getSelectionModel().getSelectedItem().toString().compareTo("Important?") == 0)) {
+            System.out.println(importance.getSelectionModel().getSelectedItem());
+            ToDoList l = new ToDoList(desc, date, (String) importance.getSelectionModel().getSelectedItem());
             
             controller.addToDoList(l);
             

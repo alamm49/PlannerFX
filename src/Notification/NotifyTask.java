@@ -4,13 +4,10 @@
  * and open the template in the editor.
  */
 package Notification;
-import Object.Deadline;
 import Object.Task;
-import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.util.TimerTask;
-import javafx.geometry.Pos;
-import org.controlsfx.control.Notifications;
+
 /**
  *
  * @author Alam

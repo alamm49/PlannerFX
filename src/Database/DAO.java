@@ -5,7 +5,6 @@
  */
 package Database;
 
-import Database.DBConnector;
 import Object.Deadline;
 import Object.Task;
 import Object.ToDoList;
@@ -24,15 +23,15 @@ import java.util.ArrayList;
 public class DAO {
 
     private Connection con;
-    private DAO dao = null;
+    private static DAO dao = null;
 
     public DAO() {
-        DBConnector i = new DBConnector();
+        DBConnector i = DBConnector.getInstance();
 
         con = i.getConnection();
     }
 
-    public DAO getInstance() {
+    public static DAO getInstance() {
         if (dao == null) {
             dao = new DAO();
             return dao;
@@ -114,7 +113,7 @@ public class DAO {
         }
     }
 
-    ArrayList<ToDoList> getToDoList(LocalDate date) {
+    public ArrayList<ToDoList> getToDoList(LocalDate date) {
         ArrayList<ToDoList> toDoList = new ArrayList();
 
         ToDoList t = null;
@@ -131,6 +130,7 @@ public class DAO {
                 t.setDescription(rs.getString("description"));
                 t.setDate(LocalDate.parse(rs.getString("Date")));
                 t.setComplete(rs.getInt("Complete"));
+                t.setImportant(rs.getInt("Important"));
                 toDoList.add(t);
 
             }
@@ -142,12 +142,13 @@ public class DAO {
 
     public void addToDoList(ToDoList d) {
         try {
-            String statement = "INSERT INTO ToDoList(Description, Date, Complete)"
-                    + "VALUES(?,?,?)";
+            String statement = "INSERT INTO ToDoList(Description, Date, Complete, Important)"
+                    + "VALUES(?,?,?,?)";
             PreparedStatement stmnt = con.prepareStatement(statement);
             stmnt.setString(1, d.getDescription());
             stmnt.setString(2, convertLocalDate(d.getDate()).toString());
             stmnt.setInt(3, 0);
+            stmnt.setInt(4, d.getImportantN());
             stmnt.execute();
             
         }
@@ -161,12 +162,13 @@ public class DAO {
             
             System.out.println("preparing statement " + l);
 
-            String statement = "Delete From ToDoList Where Description=? And Date=? And Complete =?";
+            String statement = "Delete From ToDoList Where Description=? And Date=? And Complete =? And Important =?";
             PreparedStatement stmnt = con.prepareStatement(statement);
             System.out.println("setting values");
             stmnt.setString(1, l.getDescription());
             stmnt.setString(2, convertLocalDate(l.getDate()).toString());
             stmnt.setInt(3, l.getCompleteN());
+            stmnt.setInt(4, l.getImportantN());
             
             stmnt.execute();
             return true;

@@ -76,9 +76,6 @@ public class TaskNode extends BorderPane{
         
         this.setCenter(taskTable);
         this.setBottom(deleteButton);
-        //this.add(taskTable, 1, 0);
-        
-        //this.add(taskTablePane, 0, 0);
     }
     
     public void updateTaskTable(LocalDate d){

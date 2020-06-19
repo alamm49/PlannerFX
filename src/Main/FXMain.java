@@ -8,10 +8,9 @@ package Main;
 import Calendar.CalendarController;
 import Calendar.CalendarView;
 import Database.DAO;
-import Database.Model;
+import Calendar.Model;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -22,18 +21,15 @@ public class FXMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Model model = new Model(new DAO());
-        //BorderPane root = new BorderPane();
-        
+        Model model = new Model(new DAO());       
         
         CalendarController controller = new CalendarController(model);
-        //controller.setModel(model);
+
         CalendarView root = controller.getView();
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/Main/tableCSS.css");
-        
-        //root.setCenter(cv);
+   
 
         primaryStage.setScene(scene);
         primaryStage.show();

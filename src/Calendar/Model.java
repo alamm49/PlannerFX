@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Database;
+package Calendar;
 
+import Database.DAO;
 import Notification.NotifyDeadline;
 import Notification.NotifyTask;
 import Object.Deadline;
@@ -31,11 +32,14 @@ public class Model {
     private Timer taskTimer;
     private Timer deadlineTimer;
 
+    private ArrayList<ToDoList> todayToDoList;
+
     public Model(DAO dao) {
         this.dao = dao;
         taskTimer = new Timer();
         deadlineTimer = new Timer();
         refreshTimer();
+        todayToDoList = getToDoList(LocalDate.now());
 
     }
 
@@ -79,9 +83,8 @@ public class Model {
     //>0 if start time is after end time (bad)
     //0 if start time is the same as end time (bad)
     //<0 if if start time is before end time (good)
-    public boolean addTask(String name, String desc, LocalDate Date, String hour1, String minute1, String hour2, String minute2) {
+    public boolean addTask(Task t) {
         System.out.println("im in add task");
-        Task t = new Task(name, desc, Date, combine(hour1, minute1), combine(hour2, minute2));
 
         if (t.compareTime() > 0 || t.compareTime() == 0) {
             System.out.println("start time is either the same or greater than end time");
@@ -202,5 +205,31 @@ public class Model {
         } else {
             return false;
         }
+    }
+
+    public String getToDoListSuggestion() {
+        todayToDoList = getToDoList(LocalDate.now());
+        String suggestion = "I suggest you prioritise the following: \n";
+        
+        if(todayToDoList.isEmpty()){
+            return "Nothing in to do list";
+        }
+        int j = 0;
+        for (int i = 0; i < todayToDoList.size(); i++) {
+            if (j == 2) {
+                break;
+            } else if(todayToDoList.get(i).getImportant()) {
+                suggestion = suggestion + todayToDoList.get(i).getDescription() + "\n";
+                j++;
+            }
+        }
+
+        return suggestion;
+    }
+
+    public String getDeadlineSuggestion() {
+        String suggestion = "";
+
+        return suggestion;
     }
 }

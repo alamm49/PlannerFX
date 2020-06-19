@@ -11,10 +11,9 @@ package Database;
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DBConnector {
-    private DBConnector i;
+    private static DBConnector i;
     private Connection conn;
     
     public DBConnector(){
@@ -32,7 +31,7 @@ public class DBConnector {
         }
     }
     
-    public DBConnector getInstance(){
+    public static DBConnector getInstance(){
         if (i == null){
             i = new DBConnector();
             return i;

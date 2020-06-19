@@ -5,7 +5,6 @@
  */
 package Calendar;
 
-import Database.Model;
 import Form.TaskController;
 import Object.Deadline;
 import Object.Task;
@@ -26,11 +25,15 @@ public class CalendarController {
     private CalendarView view;
     private Model model;
     private Stage stage;
-    
+
     public CalendarController(Model model) {
-        System.out.println("im here");
+        System.out.println("setting view");
+        
         setModel(model);
         this.view = new CalendarView(this);
+        getToDoListSuggestion();
+        getDeadlineSuggestion();
+        
 
     }
 
@@ -53,7 +56,7 @@ public class CalendarController {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Form/TaskFXML.fxml"));
             Parent root = loader.load();
-            
+
             TaskController TC = loader.getController();
             TC.setModel(model);
             TC.setDate(date);
@@ -61,30 +64,29 @@ public class CalendarController {
             Stage stage = new Stage();
             this.stage = stage;
             stage.setScene(new Scene(root));
-            
+
             stage.show();
-            
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-    
-    public ArrayList<Task> getTaskList(LocalDate d){
+
+    public ArrayList<Task> getTaskList(LocalDate d) {
         System.out.println("im in the controller" + model);
         ArrayList<Task> t = model.getTaskList(d);
         return t;
     }
-    
-    public void close(){
+
+    public void close() {
         stage.close();
     }
 
     public boolean deleteTask(Task t) {
         System.out.println("delete task: in calendar controller");
-        if(model.deleteTask(t)){
+        if (model.deleteTask(t)) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -96,37 +98,61 @@ public class CalendarController {
 
     public void addToDoList(ToDoList l) {
         model.addToDoList(l);
+        if (l.getDate().compareTo(LocalDate.now()) == 0) {
+            view.updateToDoListSuggestion(model.getToDoListSuggestion());
+        }
     }
 
     public boolean deleteToDoList(ToDoList l) {
-        if(model.deleteToDoList(l)){
+        if (model.deleteToDoList(l)) {
+            if (l.getDate().compareTo(LocalDate.now()) == 0) {
+                view.updateToDoListSuggestion(model.getToDoListSuggestion());
+            }
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
-    
-    public ArrayList<Deadline> getDeadlineList(LocalDate d){
+
+    public ArrayList<Deadline> getDeadlineList(LocalDate d) {
         return model.getDeadlineList(d);
     }
-    
-    public boolean addDeadline(Deadline d){
-        if(model.addDeadline(d)){
+
+    public boolean addDeadline(Deadline d) {
+        if (model.addDeadline(d)) {
+            if (d.getDate().compareTo(LocalDate.now()) == 0) {
+                view.updateDeadlineSuggestion(model.getDeadlineSuggestion());
+            }
             return true;
+        } 
+        else {
+            return false;
         }
-        else{
+    }
+
+    public boolean deleteDeadline(Deadline d) {
+        if (model.deleteDeadline(d)) {
+            if (d.getDate().compareTo(LocalDate.now()) == 0) {
+                view.updateDeadlineSuggestion(model.getDeadlineSuggestion());
+            }
+            return true;
+        } 
+        else {
             return false;
         }
     }
     
-    public boolean deleteDeadline(Deadline d){
-        if(model.deleteDeadline(d)){
-            return true;
-        }
-        else{
-            return false;
-        }
+    public void getToDoListSuggestion(){
+        System.out.println("HERERERE");
+        String m = model.getToDoListSuggestion();
+        
+        view.updateToDoListSuggestion(m);
+        System.out.println("updating");
+    }
+    
+    public void getDeadlineSuggestion(){
+        
+        view.updateDeadlineSuggestion(model.getDeadlineSuggestion());
     }
 
 }
